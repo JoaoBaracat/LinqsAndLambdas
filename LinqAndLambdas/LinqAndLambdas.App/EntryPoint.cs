@@ -41,47 +41,92 @@ namespace LinqAndLambdas
                 new Buyer(1, "Cliente 3", 5, 22),
                 new Buyer(1, "Cliente 4", 1, 44),
                 new Buyer(1, "Cliente 5", 1, 23),
+                new Buyer(1, "Cliente 5", 2, 23),
+                new Buyer(1, "Cliente 5", 3, 23),
+                new Buyer(1, "Cliente 5", 3, 23),
+                new Buyer(1, "Cliente 5", 1, 23),
             };
 
             List<Supplier> suppliers = new List<Supplier>()
             {
                 new Supplier(1, "Fornecedor", 1, 22),
                 new Supplier(1, "Fornecedor2", 1, 22),
-                new Supplier(1, "Fornecedor3", 1, 23),
-                new Supplier(1, "Fornecedor4", 1, 31),
+                new Supplier(1, "Fornecedor3", 3, 23),
+                new Supplier(1, "Fornecedor4", 5, 31),
             };
 
-            var innerJoin = suppliers.Join(buyers, s => s.District, b => b.District,
-                (s, b) => new
-                {
-                    SupplierName = s.Name,
-                    BuyerName = b.Name,
-                    District = s.District
-                });
 
+            var allStrings = mix.OfType<string>().Where(str => str.Length > 2);
+            //var allStrings = from m in mix
+            //                  where m is string //&& (m as string).Length > 2
+            //                  let str = m as string
+            //                 where str.Length > 2
+            //                 //where (m as string).Length > 2
+            //                  select m;
 
-            foreach (var item in innerJoin)
+            foreach (var item in allStrings)
             {
-                Console.WriteLine($"   {item.District} {item.SupplierName} {item.BuyerName}");
+                Console.WriteLine($"   {item.GetType()} ");
+                Console.WriteLine($"   {item} ");
             }
 
-
-            var compositeJoin = suppliers.Join(buyers,
-                s => new { s.District, s.Age },
-                b => new { b.District, b.Age},
-                (s, b) => new
-                {
-                    SupplierName = s.Name,
-                    BuyerName = b.Name,
-                    District = s.District,
-                    Age = s.Age
-                });
+            //var allIntegers = mix.OfType<int>();
+            //foreach (var item in allIntegers)
+            //{
+            //    Console.WriteLine($"   {item} ");
+            //}
 
 
-            foreach (var item in compositeJoin)
-            {
-                Console.WriteLine($"   {item.District} {item.SupplierName} {item.BuyerName} {item.Age}");
-            }
+
+
+            //var innerJoin = from s in suppliers
+            //                orderby s.District
+            //                join b in buyers on s.District equals b.District
+            //                select new
+            //                {
+            //                    SupplierName = s.Name,
+            //                    BuyerName = b.Name,
+            //                    District = s.District // pode ser apenas s.Distric, pois eles tem o mesmo nome nas tabelas
+
+            //                };
+
+
+            //foreach (var item in innerJoin)
+            //{
+            //    Console.WriteLine($"   {item.District} {item.SupplierName} {item.BuyerName}");
+            //}
+
+            //var innerJoin = suppliers.Join(buyers, s => s.District, b => b.District,
+            //    (s, b) => new
+            //    {
+            //        SupplierName = s.Name,
+            //        BuyerName = b.Name,
+            //        District = s.District
+            //    });
+
+
+            //foreach (var item in innerJoin)
+            //{
+            //    Console.WriteLine($"   {item.District} {item.SupplierName} {item.BuyerName}");
+            //}
+
+
+            //var compositeJoin = suppliers.Join(buyers,
+            //    s => new { s.District, s.Age },
+            //    b => new { b.District, b.Age},
+            //    (s, b) => new
+            //    {
+            //        SupplierName = s.Name,
+            //        BuyerName = b.Name,
+            //        District = s.District,
+            //        Age = s.Age
+            //    });
+
+
+            //foreach (var item in compositeJoin)
+            //{
+            //    Console.WriteLine($"   {item.District} {item.SupplierName} {item.BuyerName} {item.Age}");
+            //}
 
 
 
@@ -120,7 +165,7 @@ namespace LinqAndLambdas
             //    }
 
             //}
-            
+
             //var simpleGrupoPrimeiraLetra = people.OrderBy(p=> p.Name)
             //                                        .GroupBy(p => p.Name[0]);
             ////var groupPrimeiraLetraGroup = from p in people
